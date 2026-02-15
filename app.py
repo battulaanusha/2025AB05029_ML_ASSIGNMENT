@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import joblib
@@ -48,20 +49,27 @@ uploaded_file = st.file_uploader(
 if uploaded_file is not None:
 
     df = pd.read_csv(uploaded_file)
-
     # ----------------------------
-    # Data Cleaning
+    # Data Cleaning & Validation
     # ----------------------------
     df = df.dropna(axis=1, how='all')
 
     if "id" in df.columns:
         df = df.drop("id", axis=1)
 
+    if "diagnosis" not in df.columns:
+        st.error("Uploaded CSV must contain a 'diagnosis' column with labels (M/B or 1/0).")
+        st.stop()
+
     if df["diagnosis"].dtype == "object":
         df["diagnosis"] = df["diagnosis"].map({"M": 1, "B": 0})
 
+    if df["diagnosis"].isnull().any():
+        st.error("Found missing values in 'diagnosis' column. Please clean the CSV and retry.")
+        st.stop()
+
     X = df.drop("diagnosis", axis=1)
-    y = df["diagnosis"]
+    y = df["diagnosis"].astype(int)
 
     # -------------------------------------------------
     # Load Trained Model
@@ -75,7 +83,22 @@ if uploaded_file is not None:
         "XGBoost": "model/xgboost_model.pkl"
     }
 
-    model = joblib.load(model_paths[model_option])
+
+    @st.cache_resource
+    def load_model(path: str):
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"Model file not found: {path}")
+        return joblib.load(path)
+
+    try:
+        model = load_model(model_paths[model_option])
+    except FileNotFoundError as e:
+        st.error(str(e))
+        st.info("Ensure model files are available under the `model/` directory or run the training notebook.")
+        st.stop()
+    except Exception as e:
+        st.error(f"Failed to load model: {e}")
+        st.stop()
 
     # -------------------------------------------------
     # Predictions
@@ -84,6 +107,11 @@ if uploaded_file is not None:
 
     if hasattr(model, "predict_proba"):
         y_prob = model.predict_proba(X)[:, 1]
+    elif hasattr(model, "decision_function"):
+        try:
+            y_prob = model.decision_function(X)
+        except Exception:
+            y_prob = y_pred
     else:
         y_prob = y_pred
 
@@ -91,10 +119,15 @@ if uploaded_file is not None:
     # Evaluation Metrics
     # -------------------------------------------------
     accuracy = accuracy_score(y, y_pred)
-    auc = roc_auc_score(y, y_prob)
-    precision = precision_score(y, y_pred)
-    recall = recall_score(y, y_pred)
-    f1 = f1_score(y, y_pred)
+    try:
+        auc = roc_auc_score(y, y_prob)
+    except Exception:
+        auc = float('nan')
+        st.warning("AUC could not be computed for the selected model/input (check predicted probabilities).")
+
+    precision = precision_score(y, y_pred, zero_division=0)
+    recall = recall_score(y, y_pred, zero_division=0)
+    f1 = f1_score(y, y_pred, zero_division=0)
     mcc = matthews_corrcoef(y, y_pred)
 
     st.subheader("Evaluation Metrics")

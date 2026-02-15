@@ -100,9 +100,72 @@ For each model, the following metrics were calculated:
 
 ---
 
+
+
+## Repository Structure
+
+2025AB05029_ML_ASSIGNMENT/
+│
+├── app.py
+├── requirements.txt
+├── README.md
+├── .gitignore
+└── model/
+  ├── breast_classification.ipynb
+  ├── logistic_model.pkl
+  ├── decision_tree_model.pkl
+  ├── knn_model.pkl
+  ├── naive_bayes_model.pkl
+  ├── random_forest_model.pkl
+  └── xgboost_model.pkl
+
+
+---
+
+
+## How to Run the Application Locally
+
+1. Create and activate a virtual environment (recommended):
+
+Windows (cmd):
+
+```
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+macOS / Linux (bash):
+
+```
+python -m venv .venv
+source .venv/bin/activate
+```
+
+2. Install required dependencies (pin versions in `requirements.txt` for reproducibility):
+
+```
+pip install -r requirements.txt
+```
+
+3. Run the Streamlit app:
+
+```
+streamlit run app.py
+```
+
+4. Upload the provided `test_data.csv` file in the app interface.
+
+---
+
 ## Deployment
 
-The trained models were saved as `.pkl` files and deployed using a Streamlit application.  
+The trained models were saved as `.pkl` files and used by the Streamlit application.
+
+Notes about model artifacts:
+- Storing large binary model files (`*.pkl`) in a Git repository can bloat history. Consider one of:
+  - Use Git LFS for model binaries.
+  - Host model files in a release or cloud storage and provide download links.
+  - Add `*.pkl` to `.gitignore` and provide scripts to (re)train or download models.
 
 The Streamlit app includes:
 - Dataset upload (CSV – test dataset)
@@ -112,24 +175,6 @@ The Streamlit app includes:
 
 ---
 
-## Repository Structure
-
-project-folder/
-│-- app.py
-│-- requirements.txt
-│-- README.md
-│
-└── model/
-│-- breast_classification.ipynb
-│-- logistic_model.pkl
-│-- decision_tree_model.pkl
-│-- knn_model.pkl
-│-- naive_bayes_model.pkl
-│-- random_forest_model.pkl
-│-- xgboost_model.pkl
-
-
----
 
 ## Conclusion
 
@@ -139,6 +184,9 @@ Ensemble models such as Random Forest and XGBoost generally provided superior pe
 
 The combination of model evaluation and deployment provides a complete end-to-end machine learning workflow.
 
+Reproducibility: set a random seed when training (example: `random_state=42`) and record package versions in `requirements.txt`.
+
 ## References
 
 - Dataset: Kaggle Machine Learning Repository – Breast Cancer Wisconsin (Diagnostic) Dataset
+
