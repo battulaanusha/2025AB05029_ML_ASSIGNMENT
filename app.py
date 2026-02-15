@@ -87,7 +87,20 @@ if uploaded_file is not None:
     @st.cache_resource
     def load_model(path: str):
         if not os.path.exists(path):
-            raise FileNotFoundError(f"Model file not found: {path}")
+            # Try to download from MODEL_BASE_URL if provided (useful for Streamlit Cloud)
+            base_url = os.environ.get("MODEL_BASE_URL")
+            if base_url:
+                from urllib.request import urlretrieve
+                fname = os.path.basename(path)
+                url = base_url.rstrip("/") + "/" + fname
+                try:
+                    MODEL_DIR = os.path.dirname(path)
+                    os.makedirs(MODEL_DIR, exist_ok=True)
+                    urlretrieve(url, path)
+                except Exception as e:
+                    raise FileNotFoundError(f"Model file not found locally and download failed: {e}")
+            else:
+                raise FileNotFoundError(f"Model file not found: {path}")
         return joblib.load(path)
 
     try:
