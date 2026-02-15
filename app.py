@@ -21,22 +21,9 @@ from sklearn.metrics import (
 st.set_page_config(page_title="Breast Cancer ML App", layout="wide")
 
 st.title("Breast Cancer Classification App")
-st.markdown("Upload TEST dataset (CSV) to evaluate trained models.")
+st.subheader("Dataset upload option (CSV)")
 
-# -------------------------------------------------
-# Model Selection Dropdown
-# -------------------------------------------------
-model_option = st.selectbox(
-    "Select Classification Model",
-    (
-        "Logistic Regression",
-        "Decision Tree",
-        "K-Nearest Neighbor",
-        "Naive Bayes",
-        "Random Forest",
-        "XGBoost"
-    )
-)
+
 
 # -------------------------------------------------
 # Dataset Upload
@@ -71,7 +58,25 @@ if uploaded_file is not None:
     X = df.drop("diagnosis", axis=1)
     y = df["diagnosis"].astype(int)
 
+
+
     # -------------------------------------------------
+    # Model Selection Dropdown
+    # -------------------------------------------------
+    st.subheader("Model selection")
+    model_option = st.selectbox(
+        "Select Classification Model",
+        (
+            "Logistic Regression",
+            "Decision Tree",
+            "K-Nearest Neighbor",
+            "Naive Bayes",
+            "Random Forest",
+            "XGBoost"
+        )
+    )
+
+        # -------------------------------------------------
     # Load Trained Model
     # -------------------------------------------------
     model_paths = {
@@ -82,7 +87,6 @@ if uploaded_file is not None:
         "Random Forest": "model/random_forest_model.pkl",
         "XGBoost": "model/xgboost_model.pkl"
     }
-
 
     @st.cache_resource
     def load_model(path: str):
