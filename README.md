@@ -1,0 +1,146 @@
+# Machine Learning Assignment 2  
+## Breast Cancer Classification using Multiple ML Models
+
+---
+
+## a. Problem Statement
+
+The objective of this project is to build and evaluate multiple machine learning classification models on the Breast Cancer Wisconsin (Diagnostic) dataset.  
+
+The goal is to predict whether a tumor is **Malignant (1)** or **Benign (0)** using clinical measurement features extracted from digitized images of breast masses.
+
+This project demonstrates:
+- Implementation of six classification algorithms
+- Model evaluation using multiple performance metrics
+- Comparative analysis of models
+- Deployment of trained models using Streamlit
+
+---
+
+## b. Dataset Description
+
+**Dataset Name:** Breast Cancer Wisconsin (Diagnostic) Dataset  
+**Source:** UCI Machine Learning Repository  
+
+### Dataset Characteristics:
+- Total Instances: 569
+- Total Features: 30 numerical features
+- Target Variable: `diagnosis`
+  - M = Malignant (encoded as 1)
+  - B = Benign (encoded as 0)
+- Feature Type: Continuous numerical values
+- Missing Values: None (after cleaning)
+- Train-Test Split: 80% training, 20% testing (Stratified)
+
+The dataset contains computed features such as:
+- Radius
+- Texture
+- Perimeter
+- Area
+- Smoothness
+- Compactness
+- Concavity
+- Symmetry
+- Fractal Dimension
+
+These features describe characteristics of cell nuclei present in breast cancer biopsies.
+
+---
+
+## c. Models Used
+
+The following classification models were implemented and evaluated:
+
+1. Logistic Regression  
+2. Decision Tree Classifier  
+3. K-Nearest Neighbor (kNN)  
+4. Naive Bayes (Gaussian)  
+5. Random Forest (Ensemble Model)  
+6. XGBoost (Ensemble Model)
+
+### Evaluation Metrics Used
+
+For each model, the following metrics were calculated:
+
+- Accuracy  
+- AUC Score  
+- Precision  
+- Recall  
+- F1 Score  
+- Matthews Correlation Coefficient (MCC)
+
+---
+
+## Comparison Table
+
+
+
+| ML Model Name            | Accuracy | AUC    | Precision | Recall | F1 Score | MCC    |
+|---------------           |----------|--------|-----------|--------|----------|--------|
+| Logistic Regression      | 0.9649   | 0.9960 | 0.9750    | 0.9286 | 0.9512   | 0.9245 |
+| Decision Tree            | 0.9298   | 0.9246 | 0.9048    | 0.9048 | 0.9048   | 0.8492 |
+| KNN                      | 0.9561   | 0.9823 | 0.9744    | 0.9048 | 0.9383   | 0.9058 |
+| Naive Bayes              | 0.9386   | 0.9934 | 1.0000    | 0.8333 | 0.9091   | 0.8715 |
+| Random Forest (Ensemble) | 0.9649   | 0.9942 | 1.0000    | 0.9048 | 0.9500   | 0.9258 |
+| XGBoost (Ensemble)       | 0.9649   | 0.9937 | 1.0000    | 0.9048 | 0.9500   | 0.9258 |
+
+
+---
+
+## Observations on Model Performance
+
+|ML Model Name              | Observation about model performance             |
+|---------------            |-------------------------------------------------|
+|Logistic                   | Achieved very high AUC (0.9960) and strong overall balance between  
+                            Precision (0.9750) and Recall (0.9286). It demonstrates excellent generalization and performs almost as well as ensemble models. |
+| Decision Tree             | Showed comparatively lower performance (Accuracy: 0.9298, MCC: 0.     
+                            8492). While simple and interpretable, it is more prone to overfitting and variance compared to ensemble methods. |
+| KNN                       | Performed strongly (Accuracy: 0.9561) with good Precision (0.9744), 
+                            but slightly lower Recall (0.9048). Performance is good but slightly below Logistic Regression and ensemble models. |
+| Naive Bayes               | Achieved perfect Precision (1.0000) but lower Recall (0.8333), 
+                            meaning it is very strict in predicting malignant cases and may miss some positive instances. Shows strong AUC (0.9934). |
+| Random Forest (Ensemble)  | One of the best performing models with high Accuracy (0.9649),   
+                            perfect Precision (1.0000), and strong MCC (0.9258). Reduced overfitting compared to single Decision Tree. |
+| XGBoost (Ensemble)       | Matched Random Forest in Accuracy (0.9649) and MCC (0.9258), with very 
+                            high AUC (0.9937). Demonstrates strong classification power and robust ensemble learning performance. |
+
+---
+
+## Deployment
+
+The trained models were saved as `.pkl` files and deployed using a Streamlit application.  
+
+The Streamlit app includes:
+- Dataset upload (CSV – test dataset)
+- Model selection dropdown
+- Display of evaluation metrics
+- Confusion matrix visualization
+
+---
+
+## Repository Structure
+
+project-folder/
+│-- app.py
+│-- requirements.txt
+│-- README.md
+│
+└── model/
+│-- breast_classification.ipynb
+│-- logistic_model.pkl
+│-- decision_tree_model.pkl
+│-- knn_model.pkl
+│-- naive_bayes_model.pkl
+│-- random_forest_model.pkl
+│-- xgboost_model.pkl
+
+
+---
+
+## Conclusion
+
+This project demonstrates comparative evaluation of multiple classification algorithms on a medical dataset.  
+
+Ensemble models such as Random Forest and XGBoost generally provided superior performance, while simpler models like Logistic Regression also performed competitively.
+
+The combination of model evaluation and deployment provides a complete end-to-end machine learning workflow.
