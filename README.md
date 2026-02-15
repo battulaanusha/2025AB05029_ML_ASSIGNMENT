@@ -1,4 +1,4 @@
-# Machine Learning Assignment 2  
+# Machine Learning Assignment
 ## Breast Cancer Classification using Multiple ML Models
 
 ---
@@ -20,7 +20,7 @@ This project demonstrates:
 ## b. Dataset Description
 
 **Dataset Name:** Breast Cancer Wisconsin (Diagnostic) Dataset  
-**Source:** UCI Machine Learning Repository  
+**Source:** Kaggle Machine Learning Repository  
 
 ### Dataset Characteristics:
 - Total Instances: 569
@@ -89,20 +89,14 @@ For each model, the following metrics were calculated:
 
 ## Observations on Model Performance
 
-|ML Model Name              | Observation about model performance             |
-|---------------            |-------------------------------------------------|
-|Logistic                   | Achieved very high AUC (0.9960) and strong overall balance between  
-                            Precision (0.9750) and Recall (0.9286). It demonstrates excellent generalization and performs almost as well as ensemble models. |
-| Decision Tree             | Showed comparatively lower performance (Accuracy: 0.9298, MCC: 0.     
-                            8492). While simple and interpretable, it is more prone to overfitting and variance compared to ensemble methods. |
-| KNN                       | Performed strongly (Accuracy: 0.9561) with good Precision (0.9744), 
-                            but slightly lower Recall (0.9048). Performance is good but slightly below Logistic Regression and ensemble models. |
-| Naive Bayes               | Achieved perfect Precision (1.0000) but lower Recall (0.8333), 
-                            meaning it is very strict in predicting malignant cases and may miss some positive instances. Shows strong AUC (0.9934). |
-| Random Forest (Ensemble)  | One of the best performing models with high Accuracy (0.9649),   
-                            perfect Precision (1.0000), and strong MCC (0.9258). Reduced overfitting compared to single Decision Tree. |
-| XGBoost (Ensemble)       | Matched Random Forest in Accuracy (0.9649) and MCC (0.9258), with very 
-                            high AUC (0.9937). Demonstrates strong classification power and robust ensemble learning performance. |
+| ML Model Name | Observation about model performance |
+|---------------|--------------------------------------|
+| Logistic Regression | Achieved very high AUC (0.9960) and a good balance between Precision (0.9750) and Recall (0.9286). It demonstrates excellent generalization and performs almost as well as the best ensemble models. |
+| Decision Tree | Lower performance overall (Accuracy: 0.9298, MCC: 0.8492). While simple and interpretable, it is less stable than ensemble models and more prone to overfitting. |
+| KNN | Performed strongly (Accuracy: 0.9561) and has good Precision (0.9744), but slightly lower Recall (0.9048) than top models. |
+| Naive Bayes | Achieved perfect Precision (1.0000) but lower Recall (0.8333), meaning it is conservative and may miss some positive cases; still strong AUC (0.9934). |
+| Random Forest (Ensemble) | One of the best models overall with high Accuracy (0.9649), perfect Precision (1.0000), and strong MCC (0.9258). Less prone to overfitting compared to the Decision Tree. |
+| XGBoost (Ensemble) | Equal performance to Random Forest (Accuracy: 0.9649, MCC: 0.9258) with very high AUC (0.9937). Shows robust ensemble performance and strong overall results. |
 
 ---
 
@@ -144,3 +138,7 @@ This project demonstrates comparative evaluation of multiple classification algo
 Ensemble models such as Random Forest and XGBoost generally provided superior performance, while simpler models like Logistic Regression also performed competitively.
 
 The combination of model evaluation and deployment provides a complete end-to-end machine learning workflow.
+
+## References
+
+- Dataset: Kaggle Machine Learning Repository – Breast Cancer Wisconsin (Diagnostic) Dataset
